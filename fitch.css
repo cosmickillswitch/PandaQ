@@ -1,0 +1,78 @@
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}
+
+/* Layout: a single notebook column — input bench on top, the Fitch proof as the page's centrepiece, step commentary pinned beside the proof. */
+:root{
+  --bg:#EDF0F3; --paper:#FBFCFD; --ink:#17202B; --muted:#5A6574; --rule:#C7D0D9;
+  --accent:#1D6A59; --accent-ink:#FFFFFF; --mark:#FFE6A3; --ref:#D9EEE7; --bad:#9E3527; --badbg:#F8E4E0; --okbg:#E1F1EB;
+  --f-formula:"STIX Two Text","Cambria Math","Times New Roman",serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10151B; --paper:#171F28; --ink:#E5EAF0; --muted:#98A4B2; --rule:#33404D;
+  --accent:#5DC3A7; --accent-ink:#0E1A16; --mark:#56461A; --ref:#1D3A33; --bad:#E8806F; --badbg:#3A1F1B; --okbg:#18322B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10151B; --paper:#171F28; --ink:#E5EAF0; --muted:#98A4B2; --rule:#33404D;
+  --accent:#5DC3A7; --accent-ink:#0E1A16; --mark:#56461A; --ref:#1D3A33; --bad:#E8806F; --badbg:#3A1F1B; --okbg:#18322B; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+header h1{font-family:var(--f-formula);font-weight:600;font-size:1.9rem;margin:0;letter-spacing:-.01em;text-wrap:balance}
+header p{margin:4px 0 0;color:var(--muted);max-width:62ch}
+.label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.bench{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.seg button{font:inherit;font-weight:500;background:transparent;color:var(--ink);border:0;padding:8px 6px;cursor:pointer;border-right:1px solid var(--rule)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.logicnote{font-size:.88rem;color:var(--muted);margin:0}
+.inrow{display:flex;gap:8px}
+#seq{flex:1;min-width:0;font-family:var(--f-formula);font-size:1.2rem;padding:9px 11px;border:1px solid var(--rule);border-radius:8px;background:var(--bg);color:var(--ink)}
+#seq:focus-visible,button:focus-visible,input[type=range]:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.go{font:inherit;font-weight:600;background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:0 16px;cursor:pointer}
+.keys{display:flex;flex-wrap:wrap;gap:6px}
+.keys button{font-family:var(--f-formula);font-size:1.05rem;min-width:38px;padding:4px 8px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);border-radius:6px;cursor:pointer}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.hint code{font-family:var(--f-mono);font-size:.78rem}
+.examples{display:flex;flex-wrap:wrap;gap:6px}
+.examples button{font:inherit;font-size:.82rem;padding:4px 10px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.examples button:hover{border-color:var(--accent)}
+.status{padding:10px 12px;border-radius:8px;font-size:.92rem}
+.status.ok{background:var(--okbg)}
+.status.bad{background:var(--badbg);color:var(--ink)}
+.status.bad strong{color:var(--bad)}
+.status .f{font-family:var(--f-formula);font-size:1.02em}
+.sheet{background:var(--paper);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.sheethead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px;padding:12px 14px;border-bottom:1px solid var(--rule)}
+.sheethead .seqshow{font-family:var(--f-formula);font-size:1.15rem}
+.scroller{overflow-x:auto;padding:10px 6px 14px}
+.proof{width:max-content;min-width:100%}
+.row{display:grid;grid-template-columns:2.4em 1fr auto;align-items:stretch;border-radius:4px}
+.row.cur{background:var(--mark)}
+.row.isref{background:var(--ref)}
+.num{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);text-align:right;padding:7px 8px 0 0;font-variant-numeric:tabular-nums}
+.fcell{display:flex;min-width:0}
+.bar{width:18px;flex:none;border-left:1.5px solid var(--ink);opacity:.75}
+.ftxt{font-family:var(--f-formula);font-size:1.15rem;white-space:nowrap;padding:4px 14px 4px 2px;align-self:center}
+.ftxt span{display:inline-block;padding:0 6px 2px 0}
+.ftxt.line span{border-bottom:1.5px solid var(--ink)}
+.just{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);padding:8px 10px 0 12px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.row.cur .just,.row.cur .num{color:var(--ink)}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 14px;border-top:1px solid var(--rule)}
+.controls button{font:inherit;font-size:.88rem;font-weight:500;padding:6px 12px;border-radius:7px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);cursor:pointer}
+.controls button:disabled{opacity:.4;cursor:default}
+.controls input[type=range]{flex:1;min-width:120px;accent-color:var(--accent)}
+.counter{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.explain{padding:14px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:6px}
+.explain h2{margin:0;font-family:var(--f-formula);font-weight:600;font-size:1.15rem}
+.explain p{margin:0;max-width:66ch}
+.explain .f{font-family:var(--f-formula);font-size:1.05em}
+.rules{display:flex;flex-wrap:wrap;gap:6px}
+.rule{font-family:var(--f-mono);font-size:.76rem;padding:3px 8px;border-radius:5px;border:1px solid var(--rule)}
+.rule.off{opacity:.35;text-decoration:line-through}
+.rule.special{border-color:var(--accent);color:var(--accent)}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.notes div{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:12px 14px}
+.notes h3{margin:0 0 4px;font-family:var(--f-formula);font-size:1.05rem;font-weight:600}
+.notes p{margin:0;font-size:.88rem;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.row{transition:background-color .15s}}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2F6B40">
+<meta name="description" content="Propositional logic: build arguments, check them with truth tables, step through Fitch proofs, and learn the terms.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>PandQ · Prove</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="fitch.css">
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="brand">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect x="0" y="0" width="200" height="200" rx="44" fill="#3F7D4E"/>
+<circle cx="56" cy="60" r="25" fill="#1D1D1B"/><circle cx="144" cy="60" r="25" fill="#1D1D1B"/>
+<ellipse cx="100" cy="112" rx="72" ry="63" fill="#FBFAF6"/>
+<ellipse cx="71" cy="104" rx="20" ry="26" fill="#1D1D1B" transform="rotate(-24 71 104)"/>
+<ellipse cx="129" cy="104" rx="20" ry="26" fill="#1D1D1B" transform="rotate(24 129 104)"/>
+<text x="72" y="114" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#FBFAF6">P</text>
+<text x="128" y="114" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#FBFAF6">Q</text>
+<path d="M87 152 L100 133 L113 152" fill="none" stroke="#1D1D1B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><h1>PandQ<span class="testflag">Test</span></h1><p>Propositional logic: build, prove, learn.</p></div>
+  </header>
+  <nav class="appnav" aria-label="Sections"><a href="index.html">Build</a><a href="prove.html" aria-current="page">Prove</a><a href="diagrams.html">Diagrams</a><a href="learn.html">Learn</a></nav>
+
+  <section class="bench" aria-label="Input">
+    <div>
+      <div class="label" id="logiclbl">Logic</div>
+      <div class="seg" role="group" aria-labelledby="logiclbl">
+        <button id="lg-classical" data-logic="classical" aria-pressed="true">Classical</button>
+        <button id="lg-intuitionistic" data-logic="intuitionistic" aria-pressed="false">Intuitionistic</button>
+        <button id="lg-minimal" data-logic="minimal" aria-pressed="false">Minimal</button>
+      </div>
+    </div>
+    <p class="logicnote" id="logicnote"></p>
+    <div class="rules" id="rules"></div>
+    <div>
+      <label class="label" for="seq">Sequent</label>
+      <div class="inrow">
+        <input id="seq" autocomplete="off" autocapitalize="characters" spellcheck="false" value="P → Q ⊢ ¬Q → ¬P">
+        <button class="go" id="go">Prove</button>
+      </div>
+    </div>
+    <div class="keys" id="keys">
+      <button data-k="¬">¬</button><button data-k="∧">∧</button><button data-k="∨">∨</button><button data-k="→">→</button><button data-k="↔">↔</button><button data-k="⊥">⊥</button><button data-k="⊢">⊢</button><button data-k="(">(</button><button data-k=")">)</button><button data-k=", ">,</button>
+    </div>
+    <p class="hint">Premises go before <code>⊢</code>, separated by commas. Leave them out to prove a theorem. ASCII works too: <code>~ &amp; | -&gt; &lt;-&gt; |-</code></p>
+    <div>
+      <div class="label">Examples</div>
+      <div class="examples" id="examples"></div>
+    </div>
+  </section>
+
+  <div class="status" id="status" role="status"></div>
+
+  <section class="sheet" id="sheet" aria-label="Proof">
+    <div class="sheethead">
+      <span class="seqshow" id="seqshow"></span>
+      <span class="label" id="sheetlogic"></span>
+    </div>
+    <div class="scroller"><div class="proof" id="proof"></div></div>
+    <div class="controls">
+      <button id="first">Start</button>
+      <button id="prev">◀ Back</button>
+      <button id="next">Next ▶</button>
+      <button id="all">Show all</button>
+      <input type="range" id="slider" min="1" max="1" value="1" aria-label="Proof step">
+      <span class="counter" id="counter"></span>
+    </div>
+    <div class="explain" id="explain"></div>
+  </section>
+
+  <section class="notes" aria-label="About the logics">
+    <div><h3>Minimal</h3><p>Only the introduction and elimination rules. ⊥ is just a formula with no special power, so “from a contradiction, anything” fails.</p></div>
+    <div><h3>Intuitionistic</h3><p>Adds ex falso (⊥E): from ⊥ infer anything. A proof of P ∨ Q must prove one side, so excluded middle and double-negation elimination are out.</p></div>
+    <div><h3>Classical</h3><p>Adds indirect proof (IP): if assuming ¬P leads to ⊥, conclude P. This unlocks excluded middle, Peirce’s law and the full De Morgan laws.</p></div>
+  </section>
+</div>
+<script src="fitch-core.js"></script>
+<script src="fitch.js"></script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
+</body>
+</html>

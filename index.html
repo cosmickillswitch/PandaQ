@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2F6B40">
+<meta name="description" content="Propositional logic: build arguments, check them with truth tables, step through Fitch proofs, and learn the terms.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>PandQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="workbench.css">
+<link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="brand">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect x="0" y="0" width="200" height="200" rx="44" fill="#3F7D4E"/>
+<circle cx="56" cy="60" r="25" fill="#1D1D1B"/><circle cx="144" cy="60" r="25" fill="#1D1D1B"/>
+<ellipse cx="100" cy="112" rx="72" ry="63" fill="#FBFAF6"/>
+<ellipse cx="71" cy="104" rx="20" ry="26" fill="#1D1D1B" transform="rotate(-24 71 104)"/>
+<ellipse cx="129" cy="104" rx="20" ry="26" fill="#1D1D1B" transform="rotate(24 129 104)"/>
+<text x="72" y="114" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#FBFAF6">P</text>
+<text x="128" y="114" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#FBFAF6">Q</text>
+<path d="M87 152 L100 133 L113 152" fill="none" stroke="#1D1D1B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div><h1>PandQ<span class="testflag">Test</span></h1><p>Propositional logic: build, prove, learn.</p></div>
+  </header>
+  <nav class="appnav" aria-label="Sections"><a href="index.html" aria-current="page">Build</a><a href="prove.html">Prove</a><a href="diagrams.html">Diagrams</a><a href="learn.html">Learn</a></nav>
+  <nav class="tabs" role="tablist" id="tabs" hidden>
+    <button role="tab" id="tab-prop" data-tab="prop">Propositional</button>
+  </nav>
+  <p class="intro" id="intro"></p>
+  <div id="builder" style="display:flex;flex-direction:column;gap:16px"></div>
+  <div class="results" id="result" aria-live="polite"></div>
+</div>
+<script src="core.js"></script>
+<script src="workbench.js"></script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
+</body>
+</html>
